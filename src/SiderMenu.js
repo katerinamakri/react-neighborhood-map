@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
 import './App.css';
+import ListView from './ListView.js';
 
 class SiderMenu extends Component {
 
+
+
 	render() {
+
+		// let btn_class = this.state.displayBlock? "displayBlock" : "displayNone";
 		return  (
-			// <div className="container">
-		        <div className="sidermenu-container">	
-		        	<h2>Find Your Space</h2>
-	            	<ol className="list">
-		            	{this.props.markers.map( (marker, index) => (
-		            		<li key={index}>
-		            			<h3 onClick={() => this.props.onToggleOpen(index)}> 
-		            				{ marker.title}
-		            			</h3> 
-		            		</li>
-		        		))}
-	            	</ol>
-		        </div>
-		    // </div>
+			//inside div --> search component
+	        <div className="sidermenu-container">        	
+	        	<ListView 
+	        		markers={this.props.markers} 
+	        		onToggleOpen={this.props.onToggleOpen}
+	        	/>
+	        </div>
+
 	    )
 	}
 }
