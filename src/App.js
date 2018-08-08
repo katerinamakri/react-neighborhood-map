@@ -21,27 +21,26 @@ class App extends Component {
       {id:'7', title:'Tzaferi 16', position: {lat: 37.97460360000001, lng: 23.707782199999997} },
       {id:'8', title:'The Cube Athens', position: {lat: 37.98540609999999, lng: 23.732070600000043} }
     ],
-    isInfoWindowClose:true,
+    isInfoWindowClosed:true,
     selectedPlace:[]
 
   }
 
-  onToggleOpen (index) {
+  onToggleOpen = (index) => {
     // console.log('works')
-    if (this.state.isInfoWindowClose) {
-      this.setState({isInfoWindowClose: false, selectedPlace:index})
+    if (this.state.isInfoWindowClosed) {
+      this.setState({isInfoWindowClosed: false, selectedPlace:index})
     } else {
-      this.setState({isInfoWindowClose: true, selectedPlace:[]})
+      this.setState({isInfoWindowClosed: true, selectedPlace:[]})
     }
     // console.log(this.state.selectedPlace)
   }
-
 
   render() {
 
     const locations = this.state
     //create map with markers
-    const NeighborhoodMap = withGoogleMap(props => (
+    const Map = withGoogleMap(props => (
       <GoogleMap
         defaultCenter = { {lat: 37.9838109, lng: 23.727539} }
         defaultZoom = { 13 }
@@ -53,8 +52,8 @@ class App extends Component {
           onClick={() => this.onToggleOpen(index)}
           key={index}
         >
-          { (this.state.isInfoWindowClose === false) && (this.state.selectedPlace === index) && 
-            <InfoWindow onCloseClick={() => this.onToggleOpen(index) }>
+          { (this.state.isInfoWindowClosed === false) && (this.state.selectedPlace === index) && 
+            <InfoWindow onCloseClick={this.onToggleOpen}>
               <div className="info">
                 <div style={{ fontSize: `16px`, fontColor: `#08233B` }}>
                   <h3>{ marker.title }</h3>            
@@ -68,11 +67,15 @@ class App extends Component {
     ));    
 
     return (
+      // const google = window.google
       <div className="App">
         <Header />
         <div className="container">
-          <SiderMenu markers={this.state.markers} infoWindowState={this.state.isInfoWindowClose} onToggleOpen={this.onToggleOpen}/>
-          <NeighborhoodMap 
+          <SiderMenu 
+            markers={this.state.markers} 
+            onToggleOpen={this.onToggleOpen}
+          />
+          <Map 
             containerElement={ <div style={ {height:`642px`, width:`100%`} } /> }
             mapElement={ <div style={ {height:`100%`} } />}
           />
