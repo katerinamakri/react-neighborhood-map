@@ -3,13 +3,11 @@ import './App.css';
 
 class ListView extends Component {
 
-
-
 	render() {
 		return  (
-	        <div className="listview-container">	
-	        	<h2>Find Your Space</h2>
-	           	<ol className="list">
+	        	// <h2>Find Your Space</h2>
+	        // <div className="listview-container">	
+	           	<ul className="list">
 	            	{this.props.markers.map( (marker, index) => (
 	            		<li key={index}>
 	            			<h3 onClick={() => this.props.onToggleOpen(index)}> 
@@ -17,8 +15,8 @@ class ListView extends Component {
 	            			</h3> 
 	            		</li>
 	        		))}
-	           	</ol>
-	        </div>
+	           	</ul>
+	        // </div>
 	    )
 	}
 }

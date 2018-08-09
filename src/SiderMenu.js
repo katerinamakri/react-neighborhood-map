@@ -4,14 +4,34 @@ import ListView from './ListView.js';
 
 class SiderMenu extends Component {
 
+	constructor(props) {
+	    super(props)
+
+		this.state = {
+			query:'', 
+			placesResults:[]
+		}		
+	}
+
 
 
 	render() {
+		let displaySiderMenu = this.props.isSiderMenuOpen ? "block" : "none";
 
-		// let btn_class = this.state.displayBlock? "displayBlock" : "displayNone";
+
 		return  (
-			//inside div --> search component
-	        <div className="sidermenu-container">        	
+			
+			<div className="sidermenu-container" style={{ display: displaySiderMenu }}> 
+
+				<div className="search-books-input-wrapper">
+					<input 
+		               	type="text" 
+		               	placeholder="Search co-working spaces"
+		               	value ={this.state.query}
+		               	onChange={(event) => this.updateQuery(event.target.value)}
+			        />				
+		        </div>
+
 	        	<ListView 
 	        		markers={this.props.markers} 
 	        		onToggleOpen={this.props.onToggleOpen}

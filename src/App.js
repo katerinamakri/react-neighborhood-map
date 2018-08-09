@@ -12,27 +12,27 @@ class App extends Component {
 
     markers:[
       {id:'0', title:'Stone Soup', position: {lat: 37.9829726, lng: 23.733437500000036} },
-      {id:'1', title:'Found.ation', position: {lat: 37.975227, lng: 23.710912000000008} },
-      {id:'2', title:'Loft2work', position: {lat: 37.98035529999999, lng: 23.71338609999998} },    
-      {id:'3', title:'Synergy Project', position: {lat: 37.96783479999999, lng: 23.72979429999998} },
-      {id:'4', title:'The HUB Events', position: {lat: 37.9743248, lng: 23.71039429999996} },      
-      {id:'5', title:'Impact HUB Athens', position: {lat: 37.9780164, lng: 23.724694399999976} },
-      {id:'6', title:'Orange Grove Athens', position: {lat: 37.9706072, lng: 23.740549500000043} },
-      {id:'7', title:'Tzaferi 16', position: {lat: 37.97460360000001, lng: 23.707782199999997} },
-      {id:'8', title:'The Cube Athens', position: {lat: 37.98540609999999, lng: 23.732070600000043} }
+      {id:'1', title:'The Cube Athens', position: {lat: 37.98540609999999, lng: 23.732070600000043} },
+      {id:'2', title:'Found.ation', position: {lat: 37.975227, lng: 23.710912000000008} },
+      {id:'3', title:'Impact HUB Athens', position: {lat: 37.9780164, lng: 23.724694399999976} },
+      {id:'4', title:'Orange Grove Athens', position: {lat: 37.9706072, lng: 23.740549500000043} },
+      {id:'5', title:'Tzaferi 16', position: {lat: 37.97460360000001, lng: 23.707782199999997} },
+      {id:'6', title:'Synergy Project', position: {lat: 37.96783479999999, lng: 23.72979429999998} },
+      {id:'7', title:'The HUB Events', position: {lat: 37.9743248, lng: 23.71039429999996} },      
+      {id:'8', title:'Loft2work', position: {lat: 37.98035529999999, lng: 23.71338609999998} },    
     ],
+    isSiderMenuOpen:true,
     isInfoWindowClosed:true,
     selectedPlace:[]
 
   }
 
   onToggleOpen = (index) => {
-    // console.log('works')
-    if (this.state.isInfoWindowClosed) {
-      this.setState({isInfoWindowClosed: false, selectedPlace:index})
-    } else {
-      this.setState({isInfoWindowClosed: true, selectedPlace:[]})
-    }
+      this.setState({
+        isInfoWindowClosed: false, 
+        selectedPlace:index
+      })
+
     // console.log(this.state.selectedPlace)
   }
 
@@ -51,8 +51,9 @@ class App extends Component {
           position={marker.position} 
           onClick={() => this.onToggleOpen(index)}
           key={index}
+          animation={(this.state.selectedPlace === index) ? window.google.maps.Animation.BOUNCE : null}
         >
-          { (this.state.isInfoWindowClosed === false) && (this.state.selectedPlace === index) && 
+          {(this.state.selectedPlace === index) && 
             <InfoWindow onCloseClick={this.onToggleOpen}>
               <div className="info">
                 <div style={{ fontSize: `16px`, fontColor: `#08233B` }}>
@@ -73,6 +74,7 @@ class App extends Component {
         <div className="container">
           <SiderMenu 
             markers={this.state.markers} 
+            isSiderMenuOpen={this.state.isSiderMenuOpen}
             onToggleOpen={this.onToggleOpen}
           />
           <Map 
