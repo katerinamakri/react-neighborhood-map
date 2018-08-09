@@ -6,7 +6,7 @@ import ListView from './ListView.js';
 class SiderMenu extends Component {
 
 	constructor(props) {
-	    super(props)
+	  super(props)
 
 		this.state = {
 			query:'', 
@@ -21,10 +21,9 @@ class SiderMenu extends Component {
 		    
 			const match = new RegExp(escapeRegExp(this.state.query), 'i');
 
-		    let locationsResults = this.props.markers.filter((marker)=> match.test(marker.title))
+		  let locationsResults = this.props.markers.filter((marker)=> match.test(marker.title))
 
-		    this.setState({locationsResults: locationsResults})
-
+		  this.setState({locationsResults: locationsResults})
 		} else {
 			this.setState({query: '', locationsResults:this.props.markers})
 		}       	
@@ -36,15 +35,15 @@ class SiderMenu extends Component {
 
 		return  (
 			
-			<div className="sidermenu-container" style={{ display: displaySiderMenu }}> 
+			<div className="sidermenu-container"  id="sidermenu" style={{ display: displaySiderMenu }}> 
 				<div className="search-places-input-wrapper">
 					<input 
 						className="search-places"
-		               	type="text" 
-		               	placeholder=" Search"
-		               	value ={this.state.query}
-		               	onChange={(event) => this.updateQuery(event.target.value)}
-			        />				
+		       	type="text" 
+		       	placeholder=" Search"
+		       	value ={this.state.query}
+		       	onChange={(event) => this.updateQuery(event.target.value)}
+			    />				
 		        </div>
 
 	        	<ListView 
@@ -52,9 +51,8 @@ class SiderMenu extends Component {
 	        		markers={this.props.markers} 
 	        		onToggleOpen={this.props.onToggleOpen}
 	        	/>
-	        </div>
-
-	    )
+	    </div>
+	  )
 	}
 }
 
