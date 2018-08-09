@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import SiderMenu from './SiderMenu.js';
-import Header from './Header.js';
+// import Header from './Header.js';
 import { withGoogleMap, GoogleMap, Marker  } from 'react-google-maps';
 import { InfoWindow } from "react-google-maps";
 
@@ -27,6 +27,7 @@ class App extends Component {
 
   }
 
+  //handle info window
   onToggleOpen = (index) => {
       this.setState({
         isInfoWindowClosed: false, 
@@ -36,9 +37,19 @@ class App extends Component {
     // console.log(this.state.selectedPlace)
   }
 
-  render() {
+  //handle hamburger icon
+  toggleSiderMenu (){
+    console.log(this.state.isSiderMenuOpen)
+    if (this.state.isSiderMenuOpen) {
+      document.getElementById("sidermenu").style.display = "none";
+      this.setState({isSiderMenuOpen: false})
+    } else {
+      document.getElementById("sidermenu").style.display = "block";
+      this.setState({isSiderMenuOpen: true})
+    }   
+  }  
 
-    // const locations = this.state
+  render() {
     //create map with markers
     const Map = withGoogleMap(props => (
       <GoogleMap
@@ -69,8 +80,13 @@ class App extends Component {
 
     return (
       // const google = window.google
+        // <Header isSiderMenuOpen={this.state.isSiderMenuOpen}/>
       <div className="App">
-        <Header />
+        <div className="App-header">
+          <button onClick={() => this.toggleSiderMenu()}> <i className="fas fa-bars"></i> </button>       
+          <h1 className="App-title">Co-working Spaces in Athens</h1>
+        </div>
+
         <div className="container">
           <SiderMenu 
             markers={this.state.markers} 

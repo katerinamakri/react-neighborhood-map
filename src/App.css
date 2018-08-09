@@ -12,14 +12,17 @@
 /*  height: 150px;*/
   padding: 15px;
   color: white;
+  display: flex;
+  align-items: center;
 }
 
 .App-title {
   font-size: 1.5em;
+  width: 100%;
 }
 
 .container {
-  height: 100%;
+  height: calc(100vh - 90px);
   position: relative;
   display: flex;
 }
@@ -35,7 +38,7 @@
   width: 340px;  
 }
 
-.sidermenu-containe > h2 {
+.sidermenu-container > h2 {
   font-size: 1.4em;
   padding-left: 5px;
 }
@@ -49,12 +52,18 @@ ul{
 li > h3 {
   cursor: pointer;
 }
+
 .search-places {
   border-radius: 3px;
   line-height: 1.7;
   width: 80%;
   padding: 2px;
   border: 1px solid;
+}
+
+button {
+  width: 40px;
+  padding: 4px;
 }
 
 
