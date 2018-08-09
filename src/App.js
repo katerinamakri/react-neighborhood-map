@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import SiderMenu from './SiderMenu.js';
 import Header from './Header.js';
@@ -38,14 +38,14 @@ class App extends Component {
 
   render() {
 
-    const locations = this.state
+    // const locations = this.state
     //create map with markers
     const Map = withGoogleMap(props => (
       <GoogleMap
         defaultCenter = { {lat: 37.9838109, lng: 23.727539} }
         defaultZoom = { 13 }
       >
-      {locations.markers.map( (marker, index) => (        
+      {this.state.markers.map( (marker, index) => (        
         <Marker 
           title={marker.title} 
           position={marker.position} 
