@@ -5,31 +5,6 @@ import ListView from './ListView.js';
 
 class SiderMenu extends Component {
 
-	constructor(props) {
-	  super(props)
-
-		this.state = {
-			query:'', 
-			locationsResults:this.props.markers
-		}		
-	}
-
-	updateQuery = (query) => {
-		
-		if (query){
-			this.setState({ query })
-		    
-			const match = new RegExp(escapeRegExp(this.state.query), 'i');
-
-		  let locationsResults = this.props.markers.filter((marker)=> match.test(marker.title))
-
-		  this.setState({locationsResults: locationsResults})
-		} else {
-			this.setState({query: '', locationsResults:this.props.markers})
-		}       	
-	}
-
-
 	render() {
 		let displaySiderMenu = this.props.isSiderMenuOpen ? "block" : "none";
 
@@ -41,16 +16,15 @@ class SiderMenu extends Component {
 						className="search-places"
 		       	type="text" 
 		       	placeholder=" Search"
-		       	value ={this.state.query}
-		       	onChange={(event) => this.updateQuery(event.target.value)}
+		       	value ={this.props.query}
+		       	onChange={(event) => this.props.updateQuery(event.target.value)}
 			    />				
-		        </div>
+		    </div>
 
-	        	<ListView 
-	        		locationsResults={this.state.locationsResults}
-	        		markers={this.props.markers} 
-	        		onToggleOpen={this.props.onToggleOpen}
-	        	/>
+	     	<ListView 
+	     		markers={this.props.markers} 
+	     		handleInfoWindow={this.props.handleInfoWindow}
+	     	/>
 	    </div>
 	  )
 	}

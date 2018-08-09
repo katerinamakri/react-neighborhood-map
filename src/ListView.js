@@ -8,9 +8,9 @@ class ListView extends Component {
 	        // <div className="listview-container">	
 	        	// <h2>Find Your Space</h2>
 	           	<ul className="list">
-	            	{this.props.locationsResults.map( (marker, index) => (
+	            	{this.props.markers.map( (marker, index) => (
 	            		<li key={index}>
-	            			<h3 onClick={() => this.props.onToggleOpen(index)}> 
+	            			<h3 onClick={() => this.props.handleInfoWindow(index)}> 
 	            				{ marker.title}
 	            			</h3> 
 	            		</li>
