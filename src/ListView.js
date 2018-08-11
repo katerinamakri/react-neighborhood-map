@@ -9,11 +9,11 @@ class ListView extends Component {
 	        	// <h2>Find Your Space</h2>
 	           	<ul className="list">
 	            	{this.props.markers.map( (marker, index) => (
-	            		<li key={index}>
-	            			<h3 onClick={() => this.props.handleInfoWindow(index)}> 
-	            				{ marker.title}
-	            			</h3> 
-	            		</li>
+            			<a key={index} onClick={() => this.props.handleInfoWindow(index)}> 
+		            		<li>
+		            			{ marker.title}
+		            		</li>          				
+            			</a> 
 	        		))}
 	           	</ul>
 	        // </div>
