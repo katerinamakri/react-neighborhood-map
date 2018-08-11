@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import escapeRegExp from 'escape-string-regexp';
 import './App.css';
 import ListView from './ListView.js';
 
@@ -10,7 +9,7 @@ class SiderMenu extends Component {
 
 		return  (
 			
-			<div className="sidermenu-container"  id="sidermenu" style={{ display: displaySiderMenu }}> 
+			<div className="sidermenu-container" style={{ display: displaySiderMenu }}> 
 				<div className="search-places-input-wrapper">
 					<input 
 						className="search-places"
