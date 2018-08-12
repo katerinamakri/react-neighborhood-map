@@ -7,52 +7,65 @@ import { withGoogleMap, GoogleMap, Marker  } from 'react-google-maps';
 import { InfoWindow } from "react-google-maps";
 import escapeRegExp from 'escape-string-regexp';
 
+const defaultMarkers = [
+  {id:'0', title:'Stone Soup', position: {lat: 37.9829726, lng: 23.733437500000036} },
+  {id:'1', title:'The Cube Athens', position: {lat: 37.98540609999999, lng: 23.732070600000043} },
+  {id:'2', title:'Found.ation', position: {lat: 37.975227, lng: 23.710912000000008} },
+  {id:'3', title:'Impact HUB Athens', position: {lat: 37.9780164, lng: 23.724694399999976} },
+  {id:'4', title:'Orange Grove Athens', position: {lat: 37.970619, lng: 23.740566} },
+  {id:'5', title:'Tzaferi 16', position: {lat: 37.97460360000001, lng: 23.707782199999997} },
+  {id:'6', title:'Synergy Project', position: {lat: 37.967843, lng: 23.729773} },
+  {id:'7', title:'The HUB Events', position: {lat: 37.9743248, lng: 23.71039429999996} },      
+  {id:'8', title:'Regus Athens', position: {lat: 38.055694, lng: 23.812263} },
+  {id:'9', title:'IQBILITY', position: {lat: 37.959137, lng: 23.717693} }    
+];
+
 class App extends Component {
 
   state = {
-
-    markers:[
-      {id:'0', title:'Stone Soup', position: {lat: 37.9829726, lng: 23.733437500000036} },
-      {id:'1', title:'The Cube Athens', position: {lat: 37.98540609999999, lng: 23.732070600000043} },
-      {id:'2', title:'Found.ation', position: {lat: 37.975227, lng: 23.710912000000008} },
-      {id:'3', title:'Impact HUB Athens', position: {lat: 37.9780164, lng: 23.724694399999976} },
-      {id:'4', title:'Orange Grove Athens', position: {lat: 37.9706072, lng: 23.740549500000043} },
-      {id:'5', title:'Tzaferi 16', position: {lat: 37.97460360000001, lng: 23.707782199999997} },
-      {id:'6', title:'Synergy Project', position: {lat: 37.96783479999999, lng: 23.72979429999998} },
-      {id:'7', title:'The HUB Events', position: {lat: 37.9743248, lng: 23.71039429999996} },      
-      {id:'8', title:'Loft2work', position: {lat: 37.98035529999999, lng: 23.71338609999998} },    
-    ],
+    markers: defaultMarkers,
+    formattedAddresses:[],
     isSiderMenuOpen:true,
     isInfoWindowClosed:true,
     selectedPlace:[],
     query:''
     // searchingResults:this.state.markers    
+  }
 
+  //by https://developers.google.com/maps/documentation/javascript/events
+  gm_authFailure() {
+    alert('An error has occured with the map. Refresh the page or try again later')
   }
 
   //handle info window
-  handleInfoWindow = (index) => {
-      this.setState({
-        isInfoWindowClosed: false, 
-        selectedPlace:index
-      })
+  openInfoWindow = (index) => {
+    const marker = this.state.markers[index];
+    this.fetchFoursquareDataForLocation(marker.position.lat, marker.position.lng);
 
+    this.setState({
+      isInfoWindowClosed: !this.state.isInfoWindowClosed, 
+      selectedPlace:index
+    })
+    // console.log(this.state.isInfoWindowClosed)
     // console.log(this.state.selectedPlace)
+  }
+
+  closeInfoWindow = (index) => {
+    this.setState({
+      isInfoWindowClosed: !this.state.isInfoWindowClosed, 
+      selectedPlace:index
+    })     
   }
 
   //handle hamburger icon
   toggleSiderMenu (){
-    console.log(this.state.isSiderMenuOpen)
     if (this.state.isSiderMenuOpen) {
-      document.getElementById("sidermenu").style.display = "none";
       this.setState({isSiderMenuOpen: false})
     } else {
-      document.getElementById("sidermenu").style.display = "block";
       this.setState({isSiderMenuOpen: true})
     }   
   } 
 
-  
   updateQuery = (query) => {
     
     if (query){
@@ -60,29 +73,47 @@ class App extends Component {
         
       const match = new RegExp(escapeRegExp(this.state.query), 'i');
 
-      let searchingResults = this.state.markers.filter((marker)=> match.test(marker.title))
+      let searchingResults = this.state.markers.filter((marker) => match.test(marker.title))
 
       this.setState({markers: searchingResults})
     } else {
       
       this.setState({
         query: '',
-        markers:[
-          {id:'0', title:'Stone Soup', position: {lat: 37.9829726, lng: 23.733437500000036} },
-          {id:'1', title:'The Cube Athens', position: {lat: 37.98540609999999, lng: 23.732070600000043} },
-          {id:'2', title:'Found.ation', position: {lat: 37.975227, lng: 23.710912000000008} },
-          {id:'3', title:'Impact HUB Athens', position: {lat: 37.9780164, lng: 23.724694399999976} },
-          {id:'4', title:'Orange Grove Athens', position: {lat: 37.9706072, lng: 23.740549500000043} },
-          {id:'5', title:'Tzaferi 16', position: {lat: 37.97460360000001, lng: 23.707782199999997} },
-          {id:'6', title:'Synergy Project', position: {lat: 37.96783479999999, lng: 23.72979429999998} },
-          {id:'7', title:'The HUB Events', position: {lat: 37.9743248, lng: 23.71039429999996} },      
-          {id:'8', title:'Loft2work', position: {lat: 37.98035529999999, lng: 23.71338609999998} },    
-        ]
+        markers: defaultMarkers,
       })
       // console.log(this.state.markers)
     }         
   }
 
+  componentDidMount() {
+    window.gm_authFailure = this.gm_authFailure;
+    this.fetchFoursquareDataForLocation();    
+  }
+
+  fetchFoursquareDataForLocation(lat, lng) {
+    fetch(`https://api.foursquare.com/v2/venues/search?client_id=HMTYW22YKAJ4XBTYTHWPFHEIACSMDPFH5SL1X0KZ5JT2OK0C&client_secret=E5JNUFSA1QD2HP2NBRTVWOETGX1THPSPOTMBDAX4KLSQTB3Y&v=20180323&limit=1&ll=${lat},${lng}`)
+    .then((response) => {
+        // Code for handling API response
+        return response.json();
+    })
+    .then((data) => {
+      console.log("fetched data", data);
+      // console.log(data.response )
+
+      if (data.response === undefined){
+        console.log ('No data')
+      } 
+        this.setState({
+          formattedAddresses: data.response.venues[0].location.formattedAddress 
+        })  
+
+    })
+    .catch((error) => {
+        // Code for handling errors
+        console.log(error)
+    });
+  }
 
   render() {
     //create map with markers
@@ -95,16 +126,18 @@ class App extends Component {
         <Marker 
           title={marker.title} 
           position={marker.position} 
-          onClick={() => this.handleInfoWindow(index)}
+          onClick={() => this.openInfoWindow(index)}
           key={index}
           animation={(this.state.selectedPlace === index) ? window.google.maps.Animation.BOUNCE : null}
         >
           {(this.state.selectedPlace === index) && 
-            <InfoWindow onCloseClick={this.handleInfoWindow}>
+            <InfoWindow onCloseClick={this.closeInfoWindow}>
               <div className="info">
                 <div style={{ fontSize: `16px`, fontColor: `#08233B` }}>
                   <h3>{ marker.title }</h3>            
-                  <p>works</p>
+                  <p>{this.state.formattedAddresses[0]}</p>
+                  <p>{this.state.formattedAddresses[1]}</p>
+                  <p>{this.state.formattedAddresses[2]}</p>
                 </div>  
               </div>
             </InfoWindow>}
@@ -128,7 +161,7 @@ class App extends Component {
             updateQuery={this.updateQuery}
             markers={this.state.markers} 
             isSiderMenuOpen={this.state.isSiderMenuOpen}
-            handleInfoWindow={this.handleInfoWindow}
+            openInfoWindow={this.openInfoWindow}
           />
           <Map 
             containerElement={ <div style={ {height:`642px`, width:`100%`} } /> }
