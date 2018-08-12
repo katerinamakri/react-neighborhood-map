@@ -22,7 +22,7 @@ class SiderMenu extends Component {
 
 	     	<ListView 
 	     		markers={this.props.markers} 
-	     		handleInfoWindow={this.props.handleInfoWindow}
+	     		openInfoWindow={this.props.openInfoWindow}
 	     	/>
 	    </div>
 	  )
