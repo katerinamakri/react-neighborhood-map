@@ -7,13 +7,13 @@ class ListView extends Component {
 		return  (
 	        // <div className="listview-container">	
 	        	// <h2>Find Your Space</h2>
-	           	<ul className="list">
+	           	<ul className="list" aria-label="list with coworking spaces">
 	            	{this.props.markers.map( (marker, index) => (
-            			<a key={index} onClick={() => this.props.openInfoWindow(index)}> 
-		            		<li>
+            			<li key={index} tabIndex="0" onClick={() => this.props.openInfoWindow(index)} onKeyPress={() => this.props.openInfoWindow(index)}> 
+		            		<a>
 		            			{ marker.title}
-		            		</li>          				
-            			</a> 
+		            		</a>          				
+            			</li> 
 	        		))}
 	           	</ul>
 	        // </div>

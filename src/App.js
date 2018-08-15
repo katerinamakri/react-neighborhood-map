@@ -13,11 +13,11 @@ const defaultMarkers = [
   {id:'2', title:'Found.ation', position: {lat: 37.975227, lng: 23.710912000000008} },
   {id:'3', title:'Impact HUB Athens', position: {lat: 37.9780164, lng: 23.724694399999976} },
   {id:'4', title:'Orange Grove Athens', position: {lat: 37.970619, lng: 23.740566} },
-  {id:'5', title:'Tzaferi 16', position: {lat: 37.97460360000001, lng: 23.707782199999997} },
-  {id:'6', title:'Synergy Project', position: {lat: 37.967843, lng: 23.729773} },
-  {id:'7', title:'The HUB Events', position: {lat: 37.9743248, lng: 23.71039429999996} },      
-  {id:'8', title:'Regus Athens', position: {lat: 38.055694, lng: 23.812263} },
-  {id:'9', title:'IQBILITY', position: {lat: 37.959137, lng: 23.717693} }    
+  {id:'5', title:'IQBILITY', position: {lat: 37.959137, lng: 23.717693} },
+  {id:'6', title:'The HUB Events', position: {lat: 37.9743248, lng: 23.71039429999996} },      
+  {id:'7', title:'Regus Athens', position: {lat: 38.055694, lng: 23.812263} },
+  {id:'8', title:'Synergy Project', position: {lat: 37.967843, lng: 23.729773} },
+  {id:'9', title:'Tzaferi 16', position: {lat: 37.97460360000001, lng: 23.707782199999997} }
 ];
 
 class App extends Component {
@@ -34,20 +34,20 @@ class App extends Component {
 
   //by https://developers.google.com/maps/documentation/javascript/events
   gm_authFailure() {
-    alert('An error has occured with the map. Refresh the page or try again later')
+    alert('An error occurred while loading a map.  See error log for more information')
   }
 
-  //handle info window
+  //actions when info window opens
   openInfoWindow = (index) => {
-    const marker = this.state.markers[index];
-    this.fetchFoursquareDataForLocation(marker.position.lat, marker.position.lng);
-
+    //open info window
     this.setState({
       isInfoWindowClosed: !this.state.isInfoWindowClosed, 
       selectedPlace:index
-    })
-    // console.log(this.state.isInfoWindowClosed)
-    // console.log(this.state.selectedPlace)
+    })    
+    //takes the data from fourquare api
+    const marker = this.state.markers[index];
+    this.fetchFoursquareDataForLocation(marker.position.lat, marker.position.lng);
+
   }
 
   closeInfoWindow = (index) => {
@@ -92,6 +92,7 @@ class App extends Component {
   }
 
   fetchFoursquareDataForLocation(lat, lng) {
+    console.log(lat, lng)
     fetch(`https://api.foursquare.com/v2/venues/search?client_id=HMTYW22YKAJ4XBTYTHWPFHEIACSMDPFH5SL1X0KZ5JT2OK0C&client_secret=E5JNUFSA1QD2HP2NBRTVWOETGX1THPSPOTMBDAX4KLSQTB3Y&v=20180323&limit=1&ll=${lat},${lng}`)
     .then((response) => {
         // Code for handling API response
@@ -120,10 +121,12 @@ class App extends Component {
     const Map = withGoogleMap(props => (
       <GoogleMap
         defaultCenter = { {lat: 37.9838109, lng: 23.727539} }
-        defaultZoom = { 13 }
+        defaultZoom = { 12 }
+        tabIndex="-1"
       >
       {this.state.markers.map( (marker, index) => (        
         <Marker 
+          tabIndex="-1"
           title={marker.title} 
           position={marker.position} 
           onClick={() => this.openInfoWindow(index)}
@@ -133,11 +136,11 @@ class App extends Component {
           {(this.state.selectedPlace === index) && 
             <InfoWindow onCloseClick={this.closeInfoWindow}>
               <div className="info">
-                <div style={{ fontSize: `16px`, fontColor: `#08233B` }}>
-                  <h3>{ marker.title }</h3>            
-                  <p>{this.state.formattedAddresses[0]}</p>
-                  <p>{this.state.formattedAddresses[1]}</p>
-                  <p>{this.state.formattedAddresses[2]}</p>
+                <div id='infowindow' style={{ fontSize: `16px`, fontColor: `#08233B` }}>
+                  <h3 tabIndex="0">{ marker.title }</h3>            
+                  <p tabIndex="0">{this.state.formattedAddresses[0]}</p>
+                  <p tabIndex="0">{this.state.formattedAddresses[1]}</p>
+                  <p tabIndex="0">{this.state.formattedAddresses[2]}</p>
                 </div>  
               </div>
             </InfoWindow>}
@@ -152,11 +155,11 @@ class App extends Component {
         ///>
       <div className="App">
         <div className="App-header">
-          <button onClick={() => this.toggleSiderMenu()}> <i className="fas fa-bars"></i> </button>       
-          <h1 className="App-title">Co-working Spaces in Athens</h1>
+          <button tabIndex="0" onClick={() => this.toggleSiderMenu()}> <i className="fas fa-bars"></i> </button>       
+          <h1 className="App-title" tabIndex="0">Co-working Spaces in Athens</h1>
         </div>
 
-        <div className="container">
+        <div className="container" role="application">
           <SiderMenu 
             updateQuery={this.updateQuery}
             markers={this.state.markers} 
@@ -164,8 +167,14 @@ class App extends Component {
             openInfoWindow={this.openInfoWindow}
           />
           <Map 
-            containerElement={ <div style={ {height:`642px`, width:`100%`} } /> }
-            mapElement={ <div style={ {height:`100%`} } />}
+            containerElement={ 
+                <div  
+                  tabIndex="0" 
+                  aria-label="map with markers"
+                  style={ {height:`642px`, width:`100%`} } 
+                /> 
+            }
+            mapElement={ <div tabIndex="-1" style={ {height:`100%`} } />}
           />
         </div>  
       </div>
