@@ -18,5 +18,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "homepage": "https://katerinamakri.github.io"
+  "homepage": "https://katerinamakri.github.io/react-neighborhood-map/"
 }
