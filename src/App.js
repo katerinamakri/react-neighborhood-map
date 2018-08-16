@@ -155,7 +155,7 @@ class App extends Component {
         ///>
       <div className="App">
         <div className="App-header">
-          <button tabIndex="0" onClick={() => this.toggleSiderMenu()}> <i className="fas fa-bars"></i> </button>       
+          <button tabIndex="0" aria-label="hamburger button" onClick={() => this.toggleSiderMenu()}> <i className="fas fa-bars"></i> </button>       
           <h1 className="App-title" tabIndex="0">Co-working Spaces in Athens</h1>
         </div>
 
@@ -168,10 +168,11 @@ class App extends Component {
           />
           <Map 
             containerElement={ 
-                <div  
+                <div 
+                  className="containerElement" 
                   tabIndex="0" 
                   aria-label="map with markers"
-                  style={ {height:`642px`, width:`100%`} } 
+                  // style={ {height:`642px`, width:`100%`} } 
                 /> 
             }
             mapElement={ <div tabIndex="-1" style={ {height:`100%`} } />}

@@ -22,7 +22,7 @@
 }
 
 .container {
-  height: calc(100vh - 120px);
+  /*height: calc(100vh - 120px);*/
   position: relative;
   display: flex;
 }
@@ -31,7 +31,7 @@
   background: #25313c;
   border-right: 1px solid #999;
   /*border-radius: 3px;*/
-  height: 100%;
+  /*height: 100%;*/
   line-height: 25px;
   padding: 15px;
   text-align: left;
@@ -74,7 +74,7 @@ button {
   border: 0 solid;
   border-radius: 3px;
   font-size: 1.5em;
-  visibility: hidden;
+  /*visibility: hidden;*/
 }
 
 button:hover {
@@ -82,7 +82,85 @@ button:hover {
 }
 
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.containerElement{
+  height: 639px;
+  width: 100%;
+}
+
+/*
+*
+*
+*RESPONSIVE
+*
+*
+*/
+
+@media screen and (max-width: 360px) {
+  
+  .sidermenu-container {
+    height: initial;
+  }
+
+  .containerElement{
+    height: 618px;
+  }
+
+  .container {
+     height: initial; 
+  }
+
+  .App-title {
+    font-size: 1.3em;
+  }
+
+/*  button {
+    visibility: initial;
+  }*/
+
+}
+
+@media screen and (min-width: 361px) and (max-width: 425px) {
+  
+/*  button {
+    visibility: initial;
+  }*/
+
+/*  .sidermenu-container {
+    height: initial;
+  } */ 
+
+/*  .container {
+     height: initial; 
+  }
+
+  .containerElement{
+    height: 570px;
+  }  */
+}
+
+@media screen and (min-width: 426px) and (max-width: 596px) {
+
+/*  button {
+    visibility: initial;
+  }*/
+
+/*  .container {
+     height: initial; 
+  }
+
+  .containerElement{
+    height: 570px;
+  } */  
+
+}
+
+@media screen and (min-width: 597px) and (max-width: 768px) {
+
+/*  .container {
+     height: initial; 
+  }
+
+  .containerElement{
+    height: 570px;
+  } */
 }
