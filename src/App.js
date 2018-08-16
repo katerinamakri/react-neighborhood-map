@@ -92,15 +92,21 @@ class App extends Component {
   }
 
   fetchFoursquareDataForLocation(lat, lng) {
-    console.log(lat, lng)
-    fetch(`https://api.foursquare.com/v2/venues/search?client_id=HMTYW22YKAJ4XBTYTHWPFHEIACSMDPFH5SL1X0KZ5JT2OK0C&client_secret=E5JNUFSA1QD2HP2NBRTVWOETGX1THPSPOTMBDAX4KLSQTB3Y&v=20180323&limit=1&ll=${lat},${lng}`)
+    let apiURL
+
+    if( lat === undefined && lng === undefined){
+      apiURL = 'https://api.foursquare.com/v2/venues/search?client_id=HMTYW22YKAJ4XBTYTHWPFHEIACSMDPFH5SL1X0KZ5JT2OK0C&client_secret=E5JNUFSA1QD2HP2NBRTVWOETGX1THPSPOTMBDAX4KLSQTB3Y&v=20180323&limit=1&near=Athens, Greece'
+    } else {
+      apiURL = `https://api.foursquare.com/v2/venues/search?client_id=HMTYW22YKAJ4XBTYTHWPFHEIACSMDPFH5SL1X0KZ5JT2OK0C&client_secret=E5JNUFSA1QD2HP2NBRTVWOETGX1THPSPOTMBDAX4KLSQTB3Y&v=20180323&limit=1&ll=${lat},${lng}`
+    }
+
+    fetch( apiURL )
     .then((response) => {
         // Code for handling API response
         return response.json();
     })
     .then((data) => {
-      console.log("fetched data", data);
-      // console.log(data.response )
+      // console.log("fetched data", data);
 
       if (data.response === undefined){
         console.log ('No data')
@@ -150,9 +156,6 @@ class App extends Component {
     ));    
 
     return (
-      // const google = window.google
-        // <Header isSiderMenuOpen={this.state.isSiderMenuOpen}
-        ///>
       <div className="App">
         <div className="App-header">
           <button tabIndex="0" aria-label="hamburger button" onClick={() => this.toggleSiderMenu()}> <i className="fas fa-bars"></i> </button>       
@@ -172,7 +175,6 @@ class App extends Component {
                   className="containerElement" 
                   tabIndex="0" 
                   aria-label="map with markers"
-                  // style={ {height:`642px`, width:`100%`} } 
                 /> 
             }
             mapElement={ <div tabIndex="-1" style={ {height:`100%`} } />}
