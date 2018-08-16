@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-// import logo from './logo.svg';
 import './App.css';
 import SiderMenu from './SiderMenu.js';
-// import Header from './Header.js';
 import { withGoogleMap, GoogleMap, Marker  } from 'react-google-maps';
 import { InfoWindow } from "react-google-maps";
 import escapeRegExp from 'escape-string-regexp';
@@ -28,8 +26,7 @@ class App extends Component {
     isSiderMenuOpen:true,
     isInfoWindowClosed:true,
     selectedPlace:[],
-    query:''
-    // searchingResults:this.state.markers    
+    query:'' 
   }
 
   //by https://developers.google.com/maps/documentation/javascript/events
@@ -44,6 +41,7 @@ class App extends Component {
       isInfoWindowClosed: !this.state.isInfoWindowClosed, 
       selectedPlace:index
     })    
+    
     //takes the data from fourquare api
     const marker = this.state.markers[index];
     this.fetchFoursquareDataForLocation(marker.position.lat, marker.position.lng);

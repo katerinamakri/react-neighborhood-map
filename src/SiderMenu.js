@@ -10,7 +10,7 @@ class SiderMenu extends Component {
 		return  (
 			
 			<div className="sidermenu-container" style={{ display: displaySiderMenu }}> 
-				<div className="search-places-input-wrapper" >
+				<div className="search-places-input-wrapper">
 					<input 
 						aria-label="Type for coworking spaces in Athens"
 						className="search-places"
