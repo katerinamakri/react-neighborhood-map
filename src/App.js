@@ -41,7 +41,7 @@ class App extends Component {
       isInfoWindowClosed: !this.state.isInfoWindowClosed, 
       selectedPlace:index
     })    
-    
+
     //takes the data from fourquare api
     const marker = this.state.markers[index];
     this.fetchFoursquareDataForLocation(marker.position.lat, marker.position.lng);
@@ -117,6 +117,7 @@ class App extends Component {
     .catch((error) => {
         // Code for handling errors
         console.log(error)
+        alert("Sorry. There was an error retrieving the data. Please refer to the console for more information")
     });
   }
 
