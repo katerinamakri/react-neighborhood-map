@@ -1,4 +1,4 @@
-# My Neighborhood Map project
+# Co-working spaces in Athens
 
 This project is about to develop a single page application that displays co-working spaces in Athens using Google Maps. The goal of the project is to add functionality to this map including highlighted locations, third-party data about those locations and various ways to browse the content.
 
